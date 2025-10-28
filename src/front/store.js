@@ -1,18 +1,8 @@
+import { JWT_STORAGE_KEY } from "./api/auth";
+
 export const initialStore=()=>{
   return{
-    message: null,
-    todos: [
-      {
-        id: 1,
-        title: "Make the bed",
-        background: null,
-      },
-      {
-        id: 2,
-        title: "Do my homework",
-        background: null,
-      }
-    ]
+    userOnline: localStorage.getItem(JWT_STORAGE_KEY) || false
   }
 }
 
@@ -32,6 +22,17 @@ export default function storeReducer(store, action = {}) {
         ...store,
         todos: store.todos.map((todo) => (todo.id === id ? { ...todo, background: color } : todo))
       };
+
+      case 'userOnline':
+        return {
+          ...store,
+          userOnline: true
+        }
+      case 'userOffline':
+        return {
+          ...store,
+          userOnline: false
+        }
     default:
       throw Error('Unknown action.');
   }    
